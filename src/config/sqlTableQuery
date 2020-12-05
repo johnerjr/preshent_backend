@@ -1,0 +1,230 @@
+CREATE TABLE users(
+    id INT AUTO_INCREMENT  NOT NULL,
+    email VARCHAR(255) DEFAULT NULL,
+    password VARCHAR(255) DEFAULT NULL,
+    firstName VARCHAR(255) DEFAULT NULL,
+    lastName VARCHAR(255) DEFAULT NULL,
+    role INT(225) DEFAULT NULL,
+    name VARCHAR(255) DEFAULT NULL,
+    isDeleted BOOLEAN DEFAULT TRUE,
+    activationNumber VARCHAR(255) DEFAULT NULL,
+    isActivated BOOLEAN DEFAULT TRUE,
+    loginID INT(250) DEFAULT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE categories(
+    id int AUTO_INCREMENT NOT NULL,
+    name varchar(255) NOT NULL,
+    status BOOLEAN DEFAULT TRUE,
+    isActivated BOOLEAN DEFAULT TRUE,
+    createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updatedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE subCategories(
+    id int AUTO_INCREMENT NOT NULL,
+    name varchar(255) NOT NULL,
+    categoriesID int,
+    PRIMARY KEY(id),
+    status BOOLEAN DEFAULT TRUE,
+    isActivated BOOLEAN DEFAULT TRUE,
+    createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updatedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    FOREIGN KEY(categoriesID) REFERENCES categories(id)
+);
+
+CREATE TABLE minorCategories(
+    id int AUTO_INCREMENT NOT NULL,
+    name varchar(255) NOT NULL,
+    subCategoriesID int,
+    status BOOLEAN DEFAULT TRUE,
+    isActivated BOOLEAN DEFAULT TRUE,
+    createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updatedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY(subCategoriesID) REFERENCES subCategories(id)
+);
+
+
+CREATE TABLE offer(
+    id INT  AUTO_INCREMENT PRIMARY KEY,
+    product_id INT DEFAULT NULL,
+    offer_url VARCHAR(255) DEFAULT NULL,
+    seller_name VARCHAR(255) DEFAULT NULL,
+    product_price FLOAT(11) DEFAULT NULL,
+    isDeleted BOOLEAN DEFAULT TRUE,
+    isActivated BOOLEAN DEFAULT TRUE,
+    createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updatedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    FOREIGN KEY(product_id) REFERENCES products(id)
+);
+ALTER TABLE`preshent`.`products`
+CHANGE COLUMN`offerID` `offerID` VARCHAR(555) NULL DEFAULT NULL;
+
+
+CREATE TABLE products(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(555) DEFAULT NULL,
+    description LONGTEXT DEFAULT NULL,
+    price FLOAT(11) DEFAULT NULL,
+    image VARCHAR(255) DEFAULT NULL,
+    imageKey VARCHAR(255) DEFAULT NULL,
+    categorisID VARCHAR(555) DEFAULT NULL,
+    subCategorisID VARCHAR(555) DEFAULT NULL,
+    minorCategorisID VARCHAR(555) DEFAULT NULL,
+    offerID VARCHAR(255) DEFAULT NULL,
+    lumen VARCHAR(255) DEFAULT NULL,
+    watt VARCHAR(255) DEFAULT NULL,
+    kilowatt_hour VARCHAR(255) DEFAULT NULL,
+    gigahertz VARCHAR(255) DEFAULT NULL,
+    liter VARCHAR(255) DEFAULT NULL,
+    gallon VARCHAR(255) DEFAULT NULL,
+    volt VARCHAR(255) DEFAULT NULL,
+    ampere VARCHAR(255) DEFAULT NULL,
+    ampere_hour VARCHAR(255) DEFAULT NULL,
+    gallons_per_minute VARCHAR(255) DEFAULT NULL,
+    british_thermal_unit VARCHAR(255) DEFAULT NULL,
+    r_value VARCHAR(255) DEFAULT NULL,
+    width VARCHAR(11) DEFAULT NULL,
+    height VARCHAR(255) DEFAULT NULL,
+    depth VARCHAR(255) DEFAULT NULL,
+    isDeleted BOOLEAN DEFAULT TRUE,
+    isActivated BOOLEAN DEFAULT TRUE,
+    createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updatedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    createdBy VARCHAR(255) DEFAULT NULL
+);
+
+ALTER TABLE`preshent`.`products`
+CHANGE COLUMN`name` `name` VARCHAR(555) NULL DEFAULT NULL,
+    CHANGE COLUMN`description` `description` LONGTEXT NULL DEFAULT NULL;
+
+
+
+CREATE TABLE productCategory(
+    id int AUTO_INCREMENT NOT NULL,
+    product_id int,
+    category int,
+    subCategory int,
+    minorCategory VARCHAR(255) DEFAULT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY(product_id) REFERENCES products(id)
+);
+
+CREATE TABLE questions(
+    id INT  AUTO_INCREMENT PRIMARY KEY,
+    question_name  VARCHAR(255) DEFAULT NULL,
+    isDeleted BOOLEAN DEFAULT TRUE,
+    isActivated BOOLEAN DEFAULT TRUE,
+    createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updatedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    position INT
+);
+
+CREATE TABLE answers(
+    id INT  AUTO_INCREMENT PRIMARY KEY,
+    question_id  INT,
+    answer_name  VARCHAR(255) DEFAULT NULL,
+    isDeleted BOOLEAN DEFAULT TRUE,
+    isActivated BOOLEAN DEFAULT TRUE,
+    createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updatedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    position INT,
+    FOREIGN KEY(question_id) REFERENCES questions(id)
+);
+ALTER TABLE`preshent`.`answers`
+ADD COLUMN`position` INT(11) NULL AFTER`updatedDate`;
+
+
+
+CREATE TABLE flow(
+    id INT  AUTO_INCREMENT PRIMARY KEY,
+    flow_name  VARCHAR(255) DEFAULT NULL,
+    flow_questions VARCHAR(255) DEFAULT NULL,
+    image VARCHAR(255) DEFAULT NULL,
+    imageKey VARCHAR(255) DEFAULT NULL,
+    isDeleted BOOLEAN DEFAULT TRUE,
+    isActivated BOOLEAN DEFAULT TRUE,
+    createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updatedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    position INT
+);
+
+ALTER TABLE`preshent`.`flow`
+ADD COLUMN`position` INT(11) NULL AFTER`updatedDate`;
+
+
+CREATE TABLE flowBuilder(
+    id INT  AUTO_INCREMENT PRIMARY KEY,
+    flow_id  VARCHAR(255) DEFAULT NULL,
+    flow_questions VARCHAR(255) DEFAULT NULL,
+    flow_Question_answers VARCHAR(255) DEFAULT NULL,
+    categorisID VARCHAR(555) DEFAULT NULL,
+    subCategorisID VARCHAR(555) DEFAULT NULL,
+    minorCategorisID VARCHAR(555) DEFAULT NULL,
+    isDeleted BOOLEAN DEFAULT TRUE,
+    isActivated BOOLEAN DEFAULT TRUE,
+    createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updatedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+CREATE TABLE flowCategory(
+    id int AUTO_INCREMENT NOT NULL,
+    flow_id int,
+    category int,
+    subCategory int,
+    minorCategory VARCHAR(255) DEFAULT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY(flow_id) REFERENCES flow(id)
+);
+
+
+
+USER INTERFACE
+
+TableName: customers
+
+id int AI PK
+username varchar(20)
+email varchar(50)
+password varchar(255)
+titles bit(1)
+firstName varchar(20)
+lastName varchar(25)
+subscription bit(1)
+about varchar(25)
+looking varchar(25)
+company varchar(50)
+isDeleted bit(1)
+isActive bit(1)
+
+
+CREATE TABLE customers(
+    id int AUTO_INCREMENT NOT NULL,
+    username VARCHAR(20) DEFAULT NULL,
+    email VARCHAR(50)  DEFAULT NULL,
+    password VARCHAR(255)  DEFAULT NULL,
+    titles bit(1),
+    firstName VARCHAR(20)  DEFAULT NULL,
+    lastName VARCHAR(25)  DEFAULT NULL,
+    phone VARCHAR(15) DEFAULT NULL,
+    subscription INT(8),
+    about VARCHAR(25)  DEFAULT NULL,
+    looking VARCHAR(25)  DEFAULT NULL,
+    company VARCHAR(50)  DEFAULT NULL,
+    role INT(225) DEFAULT NULL,
+    isDeleted bit(1),
+    isActive bit(1),
+    createdDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updatedDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    PRIMARY KEY(id)
+);
+
+
+ALTER TABLE customers CHANGE subscription subscription int(8);
+DELETE FROM`preshent`.`flow` WHERE`id` = '';
+DELETE FROM`preshent`.`products` WHERE`id` = '7';
+
